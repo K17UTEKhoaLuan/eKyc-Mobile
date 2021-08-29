@@ -1,29 +1,34 @@
 import React, { useState } from 'react';
 import { Image } from 'native-base';
-import { ApiContext, testData } from '../../api';
-import { Dimensions } from 'react-native';
+import { ApiContext } from '../../api';
 
 import Camera from '../../components/Camera';
 
 const CameraPage = () => {
-  const api = new ApiContext('frontside');
-  const windowWidth = Dimensions.get('window').width;
-  const windowHeight = Dimensions.get('window').height;
+  const api = new ApiContext();
 
   const [state, setState] = useState({
     image: null,
+    result: false
   })
 
-  const takePicture = async (image) => {
+  const takePicture = async (image, width, height) => {
     const dataPost = {
-      ...testData,
-      windowHeight,
-      windowWidth,
-      maskHeigth: 250,
-      maskWidth: 350,
+      image,
+      name: 'HIEU',
+      identityNumber: '123',
+      address: 'abc',
+      birthday: '01/01/2002',
+      imageWidth: width,
+      imageHeight: height,
+      identityWidth: 700,
+      identityHeight: 550,
     }
-    const res = api.post(dataPost);
-    setState((prev) => ({ ...prev, image: testData.image }));
+
+    const { base64String, result } = await api.post('frontside', dataPost);
+    setState((prev) => ({ ...prev, result, image: base64String }));
+
+
   };
   return (
     <>
@@ -32,6 +37,8 @@ const CameraPage = () => {
       ) : (
         <>
           <Image
+            width={350}
+            height={250}
             source={{
               uri: `data:image/png;base64,${state.image}`,
             }}

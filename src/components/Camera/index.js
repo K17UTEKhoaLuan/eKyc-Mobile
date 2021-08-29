@@ -13,8 +13,8 @@ const Camera = (props) => {
     const takePicture = (camera) => {
         return async () => {
             const options = { quality: 0.5, base64: true };
-            const { base64 } = await camera.takePictureAsync(options);
-            handleCapture(base64);
+            const { base64, width, height } = await camera.takePictureAsync(options);
+            handleCapture(base64, width, height);
         };
     };
 
