@@ -13,6 +13,7 @@ const CameraPage = () => {
   })
 
   const takePicture = async (image, width, height) => {
+    console.log(width, height);
     const dataPost = {
       image,
       name: 'HIEU',
@@ -21,9 +22,10 @@ const CameraPage = () => {
       birthday: '01/01/2002',
       imageWidth: width,
       imageHeight: height,
-      identityWidth: 700,
-      identityHeight: 550,
+      identityWidth: 550,
+      identityHeight: 700,
     }
+    console.log(dataPost);
 
     const { base64String, result } = await api.post('frontside', dataPost);
     setState((prev) => ({ ...prev, result, image: base64String }));
