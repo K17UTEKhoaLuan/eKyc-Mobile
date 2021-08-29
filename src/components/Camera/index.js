@@ -1,6 +1,7 @@
 import React from 'react';
 import { RNCamera } from 'react-native-camera';
-import { View, Text, Button } from 'native-base';
+import { View, Button } from 'native-base';
+import BarcodeMask from 'react-native-barcode-mask';
 
 const Camera = (props) => {
     const {
@@ -24,7 +25,6 @@ const Camera = (props) => {
 
     return (
         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
-            <Text>CameraPage</Text>
             <RNCamera
                 type={type}
                 style={
@@ -42,7 +42,10 @@ const Camera = (props) => {
                 }}
             >
                 {({ camera }) => (
-                    < Button onPress={takePicture(camera)}>Snap</Button>
+                    <>
+                        <BarcodeMask width={350} height={250} showAnimatedLine={false} />
+                        <Button onPress={takePicture(camera)}>Snap</Button>
+                    </>
                 )}
             </RNCamera>
         </View >
