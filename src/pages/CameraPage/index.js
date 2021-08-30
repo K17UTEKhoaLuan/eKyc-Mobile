@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Image } from 'native-base';
 import { ApiContext } from '../../api';
+import RNFS from 'react-native-fs';
+import ImageEditor from '@react-native-community/image-editor';
 
 import Camera from '../../components/Camera';
 
@@ -12,26 +14,36 @@ const CameraPage = () => {
     result: false
   })
 
-  const takePicture = async (image, width, height) => {
+  const takePicture = (uri, width, height) => {
     console.log(width, height);
-    const dataPost = {
-      image,
-      name: 'HIEU',
-      identityNumber: '123',
-      address: 'abc',
-      birthday: '01/01/2002',
-      imageWidth: width,
-      imageHeight: height,
-      identityWidth: 550,
-      identityHeight: 700,
-    }
-    console.log(dataPost);
+    const cropData = {
+      offset: { x: 0, y: 0 },
+      size: { width, height },
+      // displaySize: { width: RESIZED_WIDTH, height: RESIZED_HEIGHT },
+    };
 
-    const { base64String, result } = await api.post('frontside', dataPost);
-    setState((prev) => ({ ...prev, result, image: base64String }));
+    ImageEditor.cropImage(uri, cropData)
+      .then((resizedImage) => {
+        RNFS.readFile(resizedImage, 'base64')
+          .then(async base64 => {
+            const dataPost = {
+              image: base64,
+              name: 'HIEU',
+              identityNumber: '123',
+              address: 'abc',
+              birthday: '01/01/2002',
+              imageWidth: width,
+              imageHeight: height,
+              identityWidth: 550,
+              identityHeight: 700,
+            }
 
-
+            const { base64String, result } = await api.post('frontside', dataPost);
+            setState((prev) => ({ ...prev, result, image: base64String }));
+          });
+      });
   };
+
   return (
     <>
       {!state.image ? (
