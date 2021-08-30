@@ -22,7 +22,7 @@ const Routes = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         {routes.map((route, index) => (
           <Stack.Screen key={index} {...route} />
         ))}

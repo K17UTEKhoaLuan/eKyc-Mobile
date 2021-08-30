@@ -11,15 +11,16 @@ const CameraPage = () => {
 
   const [state, setState] = useState({
     image: null,
-    result: false
+    result: false,
+    isLoading: false
   })
 
   const takePicture = (uri, width, height) => {
-    console.log(width, height);
+    setState((prev) => ({ ...prev, isLoading: true }))
     const cropData = {
       offset: { x: 0, y: 0 },
       size: { width, height },
-      // displaySize: { width: RESIZED_WIDTH, height: RESIZED_HEIGHT },
+      displaySize: { width: 1280, height: 960 },
     };
 
     ImageEditor.cropImage(uri, cropData)
@@ -32,14 +33,14 @@ const CameraPage = () => {
               identityNumber: '123',
               address: 'abc',
               birthday: '01/01/2002',
-              imageWidth: width,
-              imageHeight: height,
+              imageWidth: 1280,
+              imageHeight: 960,
               identityWidth: 550,
               identityHeight: 700,
             }
 
             const { base64String, result } = await api.post('frontside', dataPost);
-            setState((prev) => ({ ...prev, result, image: base64String }));
+            setState((prev) => ({ ...prev, result, image: base64String, isLoading: false }));
           });
       });
   };
@@ -47,7 +48,7 @@ const CameraPage = () => {
   return (
     <>
       {!state.image ? (
-        <Camera handleCapture={takePicture} mode='back' />
+        <Camera handleCapture={takePicture} mode='back' isLoading={state.isLoading}/>
       ) : (
         <>
           <Image

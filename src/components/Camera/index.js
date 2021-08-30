@@ -7,7 +7,8 @@ const Camera = (props) => {
     const {
         styles,
         mode = 'back',
-        handleCapture
+        handleCapture,
+        isLoading
     } = props;
 
     const takePicture = (camera) => {
@@ -43,8 +44,8 @@ const Camera = (props) => {
             >
                 {({ camera }) => (
                     <>
-                        <BarcodeMask width={350} height={250} showAnimatedLine={false} />
-                        <Button onPress={takePicture(camera)}>Snap</Button>
+                        <BarcodeMask width={400} height={260} showAnimatedLine={false} />
+                        <Button onPress={takePicture(camera)}>{isLoading ? 'Loading ...' : 'Snap'}</Button>
                     </>
                 )}
             </RNCamera>
