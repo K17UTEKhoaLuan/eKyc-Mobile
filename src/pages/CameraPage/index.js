@@ -6,9 +6,10 @@ import ImageEditor from '@react-native-community/image-editor';
 
 import Camera from '../../components/Camera';
 
-const CameraPage = () => {
+const CameraPage = (props) => {
   const api = new ApiContext();
-
+  const params = props.route.params;
+  
   const [state, setState] = useState({
     image: null,
     result: false,
