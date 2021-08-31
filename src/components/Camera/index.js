@@ -45,7 +45,13 @@ const Camera = (props) => {
                 {({ camera }) => (
                     <>
                         <BarcodeMask width={400} height={260} showAnimatedLine={false} />
-                        <Button onPress={takePicture(camera)}>{isLoading ? 'Loading ...' : 'Snap'}</Button>
+                        <Button
+                            mb={10}
+                            isLoading={isLoading}
+                            isLoadingText="Loading ..."
+                            onPress={takePicture(camera)}>
+                            Capture
+                        </Button>
                     </>
                 )}
             </RNCamera>

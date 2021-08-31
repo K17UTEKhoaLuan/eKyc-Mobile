@@ -1,20 +1,28 @@
-import React, { useState } from 'react';
-import { Image } from 'native-base';
-import { ApiContext } from '../../api';
+import React, { useEffect, useState } from 'react';
 import RNFS from 'react-native-fs';
 import ImageEditor from '@react-native-community/image-editor';
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
 
+import { ApiContext } from '../../api';
+import { addImage } from '../../store/reducers/user';
 import Camera from '../../components/Camera';
 
 const CameraPage = (props) => {
   const api = new ApiContext();
-  const params = props.route.params;
-  
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const { mode = 'back' } = props.route.params;
+
   const [state, setState] = useState({
     image: null,
     result: false,
-    isLoading: false
+    isLoading: false,
   })
+
+  useEffect(() => {
+    setState((prev) => ({ ...prev, mode }));
+  }, [mode]);
 
   const takePicture = (uri, width, height) => {
     setState((prev) => ({ ...prev, isLoading: true }))
@@ -41,29 +49,18 @@ const CameraPage = (props) => {
             }
 
             const { base64String, result } = await api.post('frontside', dataPost);
+            dispatch(addImage({
+              key: mode,
+              dataImage: base64String
+            }))
             setState((prev) => ({ ...prev, result, image: base64String, isLoading: false }));
+            navigation.navigate('IdentifyCard');
           });
       });
   };
 
   return (
-    <>
-      {!state.image ? (
-        <Camera handleCapture={takePicture} mode='back' isLoading={state.isLoading}/>
-      ) : (
-        <>
-          <Image
-            width={350}
-            height={250}
-            source={{
-              uri: `data:image/png;base64,${state.image}`,
-            }}
-            alt='Not found'
-            size={'2xl'}
-          />
-        </>
-      )}
-    </>
+    <Camera handleCapture={takePicture} isLoading={state.isLoading} />
   );
 };
 

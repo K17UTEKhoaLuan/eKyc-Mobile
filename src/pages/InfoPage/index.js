@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
-import { VStack, Heading, View, FormControl, TextArea, Input, IconButton, Text, ScrollView, Button, Container } from 'native-base';
+import {
+    VStack, Heading, View, FormControl, TextArea,
+    Input, IconButton, Text, ScrollView, Button, Container
+} from 'native-base';
+import { useDispatch,useSelector } from 'react-redux';
+import { addInfo } from '../../store/reducers/user';
 import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 const InfoPage = () => {
+    const user = useSelector(state=>state.user);
+    const dispatch = useDispatch();
     const navigation = useNavigation();
     const [state, setState] = useState({
         name: '',
@@ -13,10 +20,6 @@ const InfoPage = () => {
         address: '',
         showDatePicker: false
     })
-
-    const navigateFunc = () => {
-        navigation.navigate('Camera', state);
-    }
 
     const stringToSlug = (str) => {
         str = str.toLowerCase();
@@ -32,6 +35,18 @@ const InfoPage = () => {
         return str.toUpperCase();
     }
 
+    const navigateFunc = () => {
+        const { name, birthDate, identifyNumber, address } = state;
+        dispatch(addInfo({
+            name: stringToSlug(name),
+            address,
+            identifyNumber,
+            birthDate: birthDate.toISOString().substring(0, 10),
+        }));
+        console.log(user);
+        navigation.navigate('IdentifyCard');
+    }
+   
     const changeInput = (value, key) => {
         setState((prev) => ({ ...prev, [key]: value }))
     }
@@ -132,7 +147,7 @@ const InfoPage = () => {
                                 Address
                             </Text>
                         </FormControl.Label>
-                        <TextArea w='98%' h={20} placeholder="Address" />
+                        <TextArea w='98%' h={20} placeholder="Address" onChangeText={(e) => { changeInput(e, 'address') }} />
                     </FormControl>
                     <FormControl isRequired>
                         <FormControl.Label>
@@ -161,7 +176,13 @@ const InfoPage = () => {
                             />
                         )}
                     </FormControl>
-                    <Button my={10} w='100%' onPress={navigateFunc}>Submit</Button>
+                    <Button
+                        disabled={!state.name || !state.identifyNumber || !(/^\d+$/.test(state.identifyNumber))}
+                        my={10}
+                        w='100%'
+                        onPress={navigateFunc}>
+                        Submit
+                    </Button>
                 </VStack>
             </ScrollView>
         </View>

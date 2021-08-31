@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomePage from '../pages/HomePage';
 import CameraPage from '../pages/CameraPage';
 import InfoPage from '../pages/InfoPage';
+import IdentifyCardPage from '../pages/IdentifyCard';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,10 @@ const Routes = () => {
     {
       name: 'Infomation',
       component: InfoPage
+    },
+    {
+      name: 'IdentifyCard',
+      component: IdentifyCardPage
     }
   ]
 
