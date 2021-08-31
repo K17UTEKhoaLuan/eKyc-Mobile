@@ -43,7 +43,6 @@ const InfoPage = () => {
             identifyNumber,
             birthDate: birthDate.toISOString().substring(0, 10),
         }));
-        console.log(user);
         navigation.navigate('IdentifyCard');
     }
    

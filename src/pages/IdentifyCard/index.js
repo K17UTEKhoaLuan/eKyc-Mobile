@@ -8,8 +8,7 @@ import Icon from 'react-native-vector-icons/AntDesign'
 
 const IndentifyCardPage = () => {
     const navigation = useNavigation();
-    const image = useSelector(state => state);
-
+    const image = useSelector(state => state.user.imageCard);
     const navigateFunc = (mode) => {
         return () => {
             navigation.navigate('Camera', { mode });
@@ -33,7 +32,7 @@ const IndentifyCardPage = () => {
                     IDENTIFY CARD
                 </Heading>
             </Container>
-            <ScrollView w='100%'>
+            <ScrollView w='100%' showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
                 <VStack space={5} p={2} alignItems="center">
                     <Container>
                         {image.front ? (
@@ -49,6 +48,7 @@ const IndentifyCardPage = () => {
                             <Icon name='idcard' size={200} />
                         )}
                         <Button
+                            mt={2}
                             mx='auto'
                             startIcon={<Icon name="camerao" size={25} color='white' />}
                             endIcon={<Icon name="arrowright" size={25} color='white' />}
@@ -71,6 +71,7 @@ const IndentifyCardPage = () => {
                             <Icon name='creditcard' size={200} />
                         )}
                         <Button
+                            mt={2}
                             mx='auto'
                             startIcon={<Icon name="camerao" size={25} color='white' />}
                             endIcon={<Icon name="arrowright" size={25} color='white' />}

@@ -15,12 +15,14 @@ export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        addInfo: (state, action) => {            
-            state = { ...state, ...action.payload };                              
+        addInfo: (state, action) => {
+            for (const [key, value] of Object.entries(action.payload)) {
+                state[key] = value;
+            }
         },
-        addImage: (state, action) => {            
+        addImage: (state, action) => {
             const imageCard = { ...state.imageCard, [action.payload.key]: action.payload.dataImage };
-            state = { ...state, imageCard };            
+            state.imageCard = imageCard;
         }
     },
 })
