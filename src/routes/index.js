@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import HomePage from '../pages/HomePage';
 import CameraPage from '../pages/CameraPage';
+import RecordPage from '../pages/RecordPage';
 import InfoPage from '../pages/InfoPage';
 import IdentifyCardPage from '../pages/IdentifyCard';
 
@@ -27,6 +28,10 @@ const Routes = () => {
     {
       name: 'IdentifyCard',
       component: IdentifyCardPage
+    },
+    {
+      name: 'RecordPage',
+      component: RecordPage
     }
   ]
 
