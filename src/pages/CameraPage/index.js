@@ -37,23 +37,19 @@ const CameraPage = (props) => {
         RNFS.readFile(resizedImage, 'base64')
           .then(async base64 => {
             const dataPost = {
-              image: base64,
-              name: 'HIEU',
-              identityNumber: '123',
-              address: 'abc',
-              birthday: '01/01/2002',
+              image: base64,             
               imageWidth: 1280,
               imageHeight: 960,
               identityWidth: 550,
               identityHeight: 700,
             }
 
-            const { base64String, result } = await api.post('frontside', dataPost);
+            const { base64_string, result } = await api.post('image/crop', dataPost);
             dispatch(addImage({
               key: mode,
-              dataImage: base64String
+              dataImage: base64_string
             }))
-            setState((prev) => ({ ...prev, result, image: base64String, isLoading: false }));
+            setState((prev) => ({ ...prev, result, image: base64_string, isLoading: false }));
             navigation.navigate('IdentifyCard');
           });
       });

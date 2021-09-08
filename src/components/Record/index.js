@@ -17,7 +17,7 @@ const Record = (props) => {
 
     const record = (camera) => () => {
         setState((prev) => ({ ...prev, isRecording: true }));
-        const options = { quality: RNCamera.Constants.VideoQuality['1080p'] };
+        const options = { quality: RNCamera.Constants.VideoQuality['1080p'], maxFileSize: 450 * 1024 * 1024 };
         camera.recordAsync(options)
             .then(({ uri }) => {
                 handleRecord(uri);
