@@ -116,7 +116,7 @@ const InfoPage = () => {
                         isInvalid={!state.identifyNumber || !(/^\d+$/.test(state.identifyNumber))}>
                         <FormControl.Label>
                             <Text w='98%' fontSize={20}>
-                                Phone
+                                Identity Number
                             </Text>
                         </FormControl.Label>
                         <Input

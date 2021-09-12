@@ -1,18 +1,45 @@
 import React from 'react';
 import {
-    VStack, Heading, View, Button, Container, ScrollView, Image
+    VStack, Heading, View, Button, Container, ScrollView, Image, Box
 } from 'native-base';
+
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import { format, parseISO } from 'date-fns';
+
 import Icon from 'react-native-vector-icons/AntDesign'
 
+import { ApiContext } from '../../api';
+
 const IndentifyCardPage = () => {
+    const api = new ApiContext();
     const navigation = useNavigation();
-    const image = useSelector(state => state.user.imageCard);
+    const user = useSelector(state => state.user);
+
     const navigateFunc = (mode) => {
         return () => {
             navigation.navigate('Camera', { mode });
         }
+    }
+
+    const onValidate = async () => {
+        const {
+            name = '',
+            identifyNumber = '',
+            address = '',
+            birthDate = '',
+            imageCard = {}
+        } = user;
+        
+        const result = await api.post('cmnd/validation', {
+            name,
+            address,
+            identityNumber: identifyNumber,
+            birthday: format(new Date(birthDate), 'dd-MM-yyyy'),
+            frontside: imageCard.front,
+            backside: imageCard.back
+        });
+        console.log(result);
     }
 
     return (
@@ -35,15 +62,17 @@ const IndentifyCardPage = () => {
             <ScrollView w='100%' showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
                 <VStack space={5} p={2} alignItems="center">
                     <Container>
-                        {image.front ? (
-                            <Image
-                                w={350}
-                                h={250}
-                                source={{
-                                    uri: `data:image/png;base64,${image.front}`,
-                                }}
-                                alt='Not found'
-                            />
+                        {user?.imageCard?.front ? (
+                            <Box shadow={9} style={{ border: 'solid', borderWidth: 1 }}>
+                                <Image
+                                    w={350}
+                                    h={250}
+                                    source={{
+                                        uri: `data:image/png;base64,${user?.imageCard.front}`,
+                                    }}
+                                    alt='Not found'
+                                />
+                            </Box>
                         ) : (
                             <Icon name='idcard' size={200} />
                         )}
@@ -58,15 +87,17 @@ const IndentifyCardPage = () => {
                         </Button>
                     </Container>
                     <Container>
-                        {image.back ? (
-                            <Image
-                                w={350}
-                                h={250}
-                                source={{
-                                    uri: `data:image/png;base64,${image.back}`,
-                                }}
-                                alt='Not found'
-                            />
+                        {user?.imageCard?.back ? (
+                            <Box shadow={9} style={{ border: 'solid', borderWidth: 1 }}>
+                                <Image
+                                    w={350}
+                                    h={250}
+                                    source={{
+                                        uri: `data:image/png;base64,${user?.imageCard.back}`,
+                                    }}
+                                    alt='Not found'
+                                />
+                            </Box>
                         ) : (
                             <Icon name='creditcard' size={200} />
                         )}
@@ -80,6 +111,13 @@ const IndentifyCardPage = () => {
                             Backside
                         </Button>
                     </Container>
+                    <Button
+                        mt={2}
+                        mx='auto'
+                        onPress={onValidate}
+                    >
+                        Confirm
+                    </Button>
                 </VStack>
             </ScrollView>
         </View>
