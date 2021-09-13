@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     VStack, Heading, View, Button, Container, ScrollView, Image, Box
 } from 'native-base';
@@ -10,11 +10,16 @@ import { format, parseISO } from 'date-fns';
 import Icon from 'react-native-vector-icons/AntDesign'
 
 import { ApiContext } from '../../api';
+import AlertDialogComponent from '../../components/AlertDialog';
 
 const IndentifyCardPage = () => {
     const api = new ApiContext();
     const navigation = useNavigation();
     const user = useSelector(state => state.user);
+    const [state, setState] = useState({
+        alertMessage: '',
+        isLoading: false
+    })
 
     const navigateFunc = (mode) => {
         return () => {
@@ -23,6 +28,7 @@ const IndentifyCardPage = () => {
     }
 
     const onValidate = async () => {
+        setState((prev) => ({ ...prev, isLoading: true }))
         const {
             name = '',
             identifyNumber = '',
@@ -30,8 +36,8 @@ const IndentifyCardPage = () => {
             birthDate = '',
             imageCard = {}
         } = user;
-        
-        const result = await api.post('cmnd/validation', {
+
+        const response = await api.post('cmnd/validation', {
             name,
             address,
             identityNumber: identifyNumber,
@@ -39,7 +45,21 @@ const IndentifyCardPage = () => {
             frontside: imageCard.front,
             backside: imageCard.back
         });
-        console.log(result);
+
+        if (response.result) {
+            navigation.navigate('RecordPage');           
+        } else {
+            if (response?.step === 2) {
+                setState((prev) => ({ ...prev, alertMessage: response.message }))
+            }
+            const handleError = ['Home', 'Infomation', 'IdentifyCard'][response?.step];
+            navigation.navigate(handleError, { messageError: response.message });
+        }
+        setState((prev) => ({ ...prev, isLoading: false }))
+    }
+
+    const handleCloseAlert = () => {
+        setState((prev) => ({ ...prev, alertMessage: '' }))
     }
 
     return (
@@ -63,16 +83,15 @@ const IndentifyCardPage = () => {
                 <VStack space={5} p={2} alignItems="center">
                     <Container>
                         {user?.imageCard?.front ? (
-                            <Box shadow={9} style={{ border: 'solid', borderWidth: 1 }}>
-                                <Image
-                                    w={350}
-                                    h={250}
-                                    source={{
-                                        uri: `data:image/png;base64,${user?.imageCard.front}`,
-                                    }}
-                                    alt='Not found'
-                                />
-                            </Box>
+                            <Image
+                                w={750}
+                                h={200}
+                                resizeMode='cover'
+                                source={{
+                                    uri: `data:image/png;base64,${user?.imageCard.front}`,
+                                }}
+                                alt='Not found'
+                            />
                         ) : (
                             <Icon name='idcard' size={200} />
                         )}
@@ -88,16 +107,14 @@ const IndentifyCardPage = () => {
                     </Container>
                     <Container>
                         {user?.imageCard?.back ? (
-                            <Box shadow={9} style={{ border: 'solid', borderWidth: 1 }}>
-                                <Image
-                                    w={350}
-                                    h={250}
-                                    source={{
-                                        uri: `data:image/png;base64,${user?.imageCard.back}`,
-                                    }}
-                                    alt='Not found'
-                                />
-                            </Box>
+                            <Image
+                                w={750}
+                                h={200}
+                                source={{
+                                    uri: `data:image/png;base64,${user?.imageCard.back}`,
+                                }}
+                                alt='Not found'
+                            />
                         ) : (
                             <Icon name='creditcard' size={200} />
                         )}
@@ -114,12 +131,15 @@ const IndentifyCardPage = () => {
                     <Button
                         mt={2}
                         mx='auto'
+                        isLoading={state.isLoading}
+                        isLoadingText="Loading ..."
                         onPress={onValidate}
                     >
                         Confirm
                     </Button>
                 </VStack>
             </ScrollView>
+            <AlertDialogComponent open={Boolean(state.alertMessage)} message={state.alertMessage} handleCloseAlert={handleCloseAlert} />
         </View>
     );
 };

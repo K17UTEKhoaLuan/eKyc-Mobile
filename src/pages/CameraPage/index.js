@@ -35,13 +35,13 @@ const CameraPage = (props) => {
     ImageEditor.cropImage(uri, cropData)
       .then((resizedImage) => {
         RNFS.readFile(resizedImage, 'base64')
-          .then(async base64 => {
+          .then(async base64 => {            
             const dataPost = {
               image: base64,             
               imageWidth: 1280,
               imageHeight: 960,
-              identityWidth: 550,
-              identityHeight: 700,
+              identityWidth: 400,
+              identityHeight: 650,
             }
 
             const { base64_string, result } = await api.post('image/crop', dataPost);

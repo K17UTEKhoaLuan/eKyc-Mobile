@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     VStack, Heading, View, FormControl, TextArea,
     Input, IconButton, Text, ScrollView, Button, Container
 } from 'native-base';
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addInfo } from '../../store/reducers/user';
 import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/FontAwesome'
+import AlertDialogComponent from '../../components/AlertDialog';
 
-const InfoPage = () => {
-    const user = useSelector(state=>state.user);
+const InfoPage = (props) => {
+    const user = useSelector(state => state.user);
+    const { alertMessage = '' } = props.route.params;
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const [state, setState] = useState({
@@ -18,7 +20,8 @@ const InfoPage = () => {
         birthDate: new Date(),
         identifyNumber: '',
         address: '',
-        showDatePicker: false
+        showDatePicker: false,
+        alertMessage: ''
     })
 
     const stringToSlug = (str) => {
@@ -45,7 +48,7 @@ const InfoPage = () => {
         }));
         navigation.navigate('IdentifyCard');
     }
-   
+
     const changeInput = (value, key) => {
         setState((prev) => ({ ...prev, [key]: value }))
     }
@@ -64,6 +67,14 @@ const InfoPage = () => {
             return !(/^\d+$/.test(state.identifyNumber)) ? 'Invalid identify number.' : 'Required field.';
         }
     }
+
+    const handleCloseAlert = () => {
+        setState((prev) => ({ ...prev, alertMessage: '' }))
+    }
+
+    useEffect(() => {
+        setState((prev) => ({ ...prev, alertMessage }));
+    }, [alertMessage]);
 
     return (
         <View
@@ -87,7 +98,7 @@ const InfoPage = () => {
                     <FormControl isRequired isInvalid={!state.name}>
                         <FormControl.Label>
                             <Text w='98%' fontSize={20}>
-                                Name
+                                Full Name
                             </Text>
                         </FormControl.Label>
                         <Input
@@ -184,6 +195,7 @@ const InfoPage = () => {
                     </Button>
                 </VStack>
             </ScrollView>
+            <AlertDialogComponent open={Boolean(state.alertMessage)} message={state.alertMessage} handleCloseAlert={handleCloseAlert} />
         </View>
     );
 };
