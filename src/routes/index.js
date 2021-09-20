@@ -7,6 +7,7 @@ import CameraPage from '../pages/CameraPage';
 import RecordPage from '../pages/RecordPage';
 import InfoPage from '../pages/InfoPage';
 import IdentifyCardPage from '../pages/IdentifyCard';
+import FaceComparePage from '../pages/FaceComparePage';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,10 @@ const Routes = () => {
     {
       name: 'RecordPage',
       component: RecordPage
+    },
+    {
+      name: 'FaceComparePage',
+      component: FaceComparePage
     }
   ]
 

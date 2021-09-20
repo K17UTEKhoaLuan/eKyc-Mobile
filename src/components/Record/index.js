@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { RNCamera } from 'react-native-camera';
-import { View, Button,Text } from 'native-base';
+import { View, Button, Heading } from 'native-base';
 import BarcodeMask from 'react-native-barcode-mask';
 
 const Record = (props) => {
     const {
         styles,
-        mode = 'back',
+        mode = 'front',
+        guide,
         handleRecord,
     } = props;
     const cameraRef = useRef(null);
@@ -56,9 +57,29 @@ const Record = (props) => {
                 {({ camera }) => (
                     <>
                         <BarcodeMask width={400} height={260} showAnimatedLine={false} />
+
+                        {!!guide && (
+                            <View style={{
+                                backgroundColor: 'white',
+                                borderRadius: 6,
+                                padding: 10,
+                                top: 80,
+                                position: 'absolute'
+                            }}>
+                                <Heading
+                                    alignSelf={{
+                                        base: "center",
+                                        md: "flex-start",
+                                    }}
+                                >
+                                    {guide}
+                                </Heading>
+                            </View>
+                        )}
                         <View style={{ display: !state.isRecording ? 'flex' : 'none', flexDirection: 'row', marginBottom: 30 }}>
                             <Button
                                 isLoading={state.isRecording}
+                                disabled={!guide}
                                 isLoadingText="Recording ..."
                                 onPressIn={record(camera)}
                                 onPressOut={stopRecord(camera)}

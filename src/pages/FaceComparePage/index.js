@@ -7,25 +7,19 @@ import { ApiContext } from '../../api';
 import Record from '../../components/Record';
 import AlertDialogComponent from '../../components/AlertDialog';
 
-const RecordPage = () => {
+const FaceComparePage = () => {
     const api = new ApiContext();
     const dispatch = useDispatch();
     const navigation = useNavigation();
 
     const [state, setState] = useState({
-        pose: '',
+        pose: 'Please see in your camera!',
         pose_id: '',
-        resultValid: false
     })
 
-    useEffect(async () => {
-        const result = await api.post('face/gesture', {}, { params: { identityNumber: '025837926' } });
-        setState((prev) => ({ ...prev, pose: result.pose, pose_id: result.pose_id }));
-    }, [])
-
-    const handleCloseAlert = () => {
-        setState((prev) => ({ ...prev, resultValid: false }))
-    }
+    // const handleCloseAlert = () => {
+    //     setState((prev) => ({ ...prev, resultValid: false }))
+    // }
 
     const record = async (uri) => {
         const data = new FormData();
@@ -36,35 +30,26 @@ const RecordPage = () => {
                 type: 'video/mp4'
             });
 
-        const res = await api.post('face/checkgesture', data, {
+        const res = await api.post('face/compareface', data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             },
             params: { identityNumber: '025837926' }
         });
         
-        if (res.complete) {
-            navigation.navigate('FaceComparePage')
-        } else {
-
-            if (res.result) {
-                setState((prev) => ({ ...prev, pose: res.pose, pose_id: res.pose_id }));
-            } else {
-                setState((prev) => ({ ...prev, resultValid: true }));
-            }        
-        }
+        console.log(res);
     };
 
     return (
         <>
             <Record handleRecord={record} guide={state.pose} />
-            <AlertDialogComponent
+            {/* <AlertDialogComponent
                 open={state.resultValid}
                 message='Valid failed, please try again!'
                 handleCloseAlert={handleCloseAlert}
-            />
+            /> */}
         </>
     );
 };
 
-export default RecordPage;
+export default FaceComparePage;
