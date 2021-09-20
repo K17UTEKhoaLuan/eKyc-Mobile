@@ -56,7 +56,7 @@ const Record = (props) => {
             >
                 {({ camera }) => (
                     <>
-                        <BarcodeMask width={400} height={260} showAnimatedLine={false} />
+                        <BarcodeMask width={400} height={400} showAnimatedLine={false} />
 
                         {!!guide && (
                             <View style={{
