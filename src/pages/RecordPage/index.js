@@ -27,12 +27,18 @@ const RecordPage = (props) => {
                 name: 'userProfile.mp4',
                 type: 'video/mp4'
             });
-
+            
         api.post('cmnd/uploadfile', data, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         });
+        // result: true
+        // nextStep: 'left'
+        // complete: true
+
+        // result: false
+        // complete: false
     };
 
     return (

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { RNCamera } from 'react-native-camera';
-import { View, Button } from 'native-base';
+import { View, Button,Text } from 'native-base';
 import BarcodeMask from 'react-native-barcode-mask';
 
 const Record = (props) => {
@@ -17,7 +17,7 @@ const Record = (props) => {
 
     const record = (camera) => () => {
         setState((prev) => ({ ...prev, isRecording: true }));
-        const options = { quality: RNCamera.Constants.VideoQuality['1080p'], maxFileSize: 450 * 1024 * 1024 };
+        const options = { quality: RNCamera.Constants.VideoQuality['1080p'], maxFileSize: 20 * 1024 * 1024 };
         camera.recordAsync(options)
             .then(({ uri }) => {
                 handleRecord(uri);
@@ -56,14 +56,14 @@ const Record = (props) => {
                 {({ camera }) => (
                     <>
                         <BarcodeMask width={400} height={260} showAnimatedLine={false} />
-                        <View style={{ display: 'flex', flexDirection: 'row', marginBottom: 30 }}>
+                        <View style={{ display: !state.isRecording ? 'flex' : 'none', flexDirection: 'row', marginBottom: 30 }}>
                             <Button
                                 isLoading={state.isRecording}
                                 isLoadingText="Recording ..."
                                 onPressIn={record(camera)}
                                 onPressOut={stopRecord(camera)}
                             >
-                                Record
+                                Continue
                             </Button>
                         </View>
                     </>

@@ -12,7 +12,7 @@ import AlertDialogComponent from '../../components/AlertDialog';
 
 const InfoPage = (props) => {
     const user = useSelector(state => state.user);
-    const { alertMessage = '' } = props.route.params;
+    const alertMessage = props?.route?.params?.alertMessage || '';
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const [state, setState] = useState({

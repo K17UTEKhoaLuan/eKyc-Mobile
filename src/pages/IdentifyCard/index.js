@@ -46,15 +46,16 @@ const IndentifyCardPage = () => {
             backside: imageCard.back
         });
 
-        if (response.result) {
-            navigation.navigate('RecordPage');           
-        } else {
-            if (response?.step === 2) {
-                setState((prev) => ({ ...prev, alertMessage: response.message }))
-            }
-            const handleError = ['Home', 'Infomation', 'IdentifyCard'][response?.step];
-            navigation.navigate(handleError, { messageError: response.message });
-        }
+        // if (response.result) {
+        //     navigation.navigate('RecordPage');           
+        // } else {
+        //     if (response?.step === 2) {
+        //         setState((prev) => ({ ...prev, alertMessage: response.message }))
+        //     }
+        //     const handleError = ['Home', 'Infomation', 'IdentifyCard'][response?.step];
+        //     navigation.navigate(handleError, { messageError: response.message });
+        // }
+        navigation.navigate('RecordPage');
         setState((prev) => ({ ...prev, isLoading: false }))
     }
 
