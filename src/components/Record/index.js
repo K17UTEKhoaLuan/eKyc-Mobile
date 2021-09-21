@@ -18,17 +18,21 @@ const Record = (props) => {
 
     const record = (camera) => () => {
         setState((prev) => ({ ...prev, isRecording: true }));
-        const options = { quality: RNCamera.Constants.VideoQuality['1080p'], maxFileSize: 20 * 1024 * 1024 };
+
+        const options = {
+            quality: RNCamera.Constants.VideoQuality['288p'],
+            maxFileSize: 10 * 1024 * 1024,
+            maxDuration: 5
+        };
+
         camera.recordAsync(options)
             .then(({ uri }) => {
                 handleRecord(uri);
+                setState((prev) => ({ ...prev, isRecording: false }));
             });
     };
 
-    const stopRecord = (camera) => async () => {
-        setState((prev) => ({ ...prev, isRecording: false }));
-        await camera.stopRecording();
-    }
+    const stopRecord = (camera) => async () => { }
 
     const type = ({
         front: RNCamera.Constants.Type.front,

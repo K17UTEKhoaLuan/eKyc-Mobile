@@ -42,7 +42,7 @@ const RecordPage = () => {
             },
             params: { identityNumber: '025837926' }
         });
-        
+        console.log(res);
         if (res.complete) {
             navigation.navigate('FaceComparePage')
         } else {

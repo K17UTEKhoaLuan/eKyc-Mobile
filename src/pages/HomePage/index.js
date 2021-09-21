@@ -9,6 +9,7 @@ const HomePage = () => {
 
   const navigateFunc = () => {
     navigation.navigate('Infomation');
+    // navigation.navigate('RecordPage');
   }
 
   return (
