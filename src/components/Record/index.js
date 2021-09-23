@@ -26,9 +26,9 @@ const Record = (props) => {
         };
 
         camera.recordAsync(options)
-            .then(({ uri }) => {
-                handleRecord(uri);
-                setState((prev) => ({ ...prev, isRecording: false }));
+            .then(async ({ uri }) => {
+                await handleRecord(uri);
+                setState((prev) => ({ ...prev, isRecording: false }));                
             });
     };
 
@@ -60,14 +60,14 @@ const Record = (props) => {
             >
                 {({ camera }) => (
                     <>
-                        <BarcodeMask width={400} height={400} showAnimatedLine={false} />
+                        <BarcodeMask width={400} height={500} showAnimatedLine={false} />
 
                         {!!guide && (
                             <View style={{
                                 backgroundColor: 'white',
                                 borderRadius: 6,
                                 padding: 10,
-                                top: 80,
+                                top: 15,
                                 position: 'absolute'
                             }}>
                                 <Heading

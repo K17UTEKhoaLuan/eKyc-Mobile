@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { ApiContext } from '../../api';
 
@@ -9,6 +9,7 @@ import AlertDialogComponent from '../../components/AlertDialog';
 
 const FaceComparePage = () => {
     const api = new ApiContext();
+    const identityNumber = useSelector(state => state.user.identifyNumber);
     const dispatch = useDispatch();
     const navigation = useNavigation();
 
@@ -34,9 +35,9 @@ const FaceComparePage = () => {
             headers: {
                 'Content-Type': 'multipart/form-data'
             },
-            params: { identityNumber: '025837926' }
+            params: { identityNumber }
         });
-        
+
         console.log(res);
     };
 

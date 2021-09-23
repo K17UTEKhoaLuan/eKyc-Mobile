@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { ApiContext } from '../../api';
 
@@ -9,6 +9,7 @@ import AlertDialogComponent from '../../components/AlertDialog';
 
 const RecordPage = () => {
     const api = new ApiContext();
+    const identityNumber = useSelector(state => state.user.identifyNumber);
     const dispatch = useDispatch();
     const navigation = useNavigation();
 
@@ -19,7 +20,8 @@ const RecordPage = () => {
     })
 
     useEffect(async () => {
-        const result = await api.post('face/gesture', {}, { params: { identityNumber: '025837926' } });
+        console.log(identityNumber);
+        const result = await api.post('face/gesture', {}, { params: { identityNumber } });
         setState((prev) => ({ ...prev, pose: result.pose, pose_id: result.pose_id }));
     }, [])
 
@@ -40,7 +42,7 @@ const RecordPage = () => {
             headers: {
                 'Content-Type': 'multipart/form-data'
             },
-            params: { identityNumber: '025837926' }
+            params: { identityNumber }
         });
         console.log(res);
         if (res.complete) {
@@ -51,7 +53,7 @@ const RecordPage = () => {
                 setState((prev) => ({ ...prev, pose: res.pose, pose_id: res.pose_id }));
             } else {
                 setState((prev) => ({ ...prev, resultValid: true }));
-            }        
+            }
         }
     };
 
