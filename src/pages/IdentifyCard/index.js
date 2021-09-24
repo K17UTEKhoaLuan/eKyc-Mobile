@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { format, parseISO } from 'date-fns';
 
 import Icon from 'react-native-vector-icons/AntDesign'
+import IconFA5 from 'react-native-vector-icons/FontAwesome5'
 
 import { ApiContext } from '../../api';
 import AlertDialogComponent from '../../components/AlertDialog';
@@ -68,7 +69,6 @@ const IndentifyCardPage = () => {
             bgColor='white'
             alignItems='center'
             h='100%'
-            p={5}
         >
             <Container borderBottomWidth={1} borderBottomColor='gray'>
                 <Heading
@@ -81,7 +81,7 @@ const IndentifyCardPage = () => {
                 </Heading>
             </Container>
             <ScrollView w='100%' showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-                <VStack space={5} p={2} alignItems="center">
+                <VStack space={5} my={4} alignItems="center">
                     <Container>
                         {user?.imageCard?.front ? (
                             <Image
@@ -94,10 +94,10 @@ const IndentifyCardPage = () => {
                                 alt='Not found'
                             />
                         ) : (
-                            <Icon name='idcard' size={200} />
+                            <Icon name='idcard' size={250} />
                         )}
                         <Button
-                            mt={2}
+                            mt={3}
                             mx='auto'
                             startIcon={<Icon name="camerao" size={25} color='white' />}
                             endIcon={<Icon name="arrowright" size={25} color='white' />}
@@ -117,10 +117,10 @@ const IndentifyCardPage = () => {
                                 alt='Not found'
                             />
                         ) : (
-                            <Icon name='creditcard' size={200} />
+                            <Icon name='creditcard' size={250} />
                         )}
                         <Button
-                            mt={2}
+                            mt={3}
                             mx='auto'
                             startIcon={<Icon name="camerao" size={25} color='white' />}
                             endIcon={<Icon name="arrowright" size={25} color='white' />}
@@ -131,12 +131,16 @@ const IndentifyCardPage = () => {
                     </Container>
                     <Button
                         mt={2}
+                        w={250}                        
                         mx='auto'
+                        size='lg'
+                        colorScheme="success"
                         isLoading={state.isLoading}
                         isLoadingText="Loading ..."
                         onPress={onValidate}
+                        startIcon={<IconFA5 name="user-check" size={25} color='white' />}
                     >
-                        Confirm
+                        CONFIRM
                     </Button>
                 </VStack>
             </ScrollView>
