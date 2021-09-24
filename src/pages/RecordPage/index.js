@@ -20,7 +20,6 @@ const RecordPage = () => {
     })
 
     useEffect(async () => {
-        console.log(identityNumber);
         const result = await api.post('face/gesture', {}, { params: { identityNumber } });
         setState((prev) => ({ ...prev, pose: result.pose, pose_id: result.pose_id }));
     }, [])

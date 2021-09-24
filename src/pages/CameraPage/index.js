@@ -40,8 +40,8 @@ const CameraPage = (props) => {
               image: base64,             
               imageWidth: 1280,
               imageHeight: 960,
-              identityWidth: 400,
-              identityHeight: 650,
+              identityWidth: 380,
+              identityHeight: 600,
             }
 
             const { base64_string, result } = await api.post('image/crop', dataPost);
