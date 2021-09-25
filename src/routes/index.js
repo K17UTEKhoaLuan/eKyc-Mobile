@@ -8,6 +8,7 @@ import RecordPage from '../pages/RecordPage';
 import InfoPage from '../pages/InfoPage';
 import IdentifyCardPage from '../pages/IdentifyCard';
 import FaceComparePage from '../pages/FaceComparePage';
+import ResultPage from '../pages/ResultPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -37,7 +38,11 @@ const Routes = () => {
     {
       name: 'FaceComparePage',
       component: FaceComparePage
-    }
+    },
+    {
+      name: 'ResultPage',
+      component: ResultPage
+    },
   ]
 
   return (

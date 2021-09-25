@@ -10,17 +10,14 @@ import AlertDialogComponent from '../../components/AlertDialog';
 const FaceComparePage = () => {
     const api = new ApiContext();
     const identityNumber = useSelector(state => state.user.identifyNumber);
-    const dispatch = useDispatch();
     const navigation = useNavigation();
 
     const [state, setState] = useState({
         pose: 'Please see in your camera!',
         pose_id: '',
+        alertMessage: ''
     })
 
-    // const handleCloseAlert = () => {
-    //     setState((prev) => ({ ...prev, resultValid: false }))
-    // }
 
     const record = async (uri) => {
         const data = new FormData();
@@ -38,17 +35,25 @@ const FaceComparePage = () => {
             params: { identityNumber }
         });
 
-        console.log(res);
+        if (res.result) {
+            navigation.navigate('ResultPage')
+        } else {
+            setState((prev) => ({ ...prev, alertMessage: res.message }))
+        }
     };
+
+    const handleCloseAlert = () => {
+        setState((prev) => ({ ...prev, alertMessage: '' }))
+    }
 
     return (
         <>
             <Record handleRecord={record} guide={state.pose} />
-            {/* <AlertDialogComponent
-                open={state.resultValid}
+            <AlertDialogComponent
+                open={!!state.alertMessage}
                 message='Valid failed, please try again!'
                 handleCloseAlert={handleCloseAlert}
-            /> */}
+            />
         </>
     );
 };
