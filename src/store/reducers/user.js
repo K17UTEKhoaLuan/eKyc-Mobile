@@ -23,10 +23,22 @@ export const userSlice = createSlice({
         addImage: (state, action) => {
             const imageCard = { ...state.imageCard, [action.payload.key]: action.payload.dataImage };
             state.imageCard = imageCard;
-        }
+        },
+        clearState: (state) => {
+            state = {
+                name: '',
+                identifyNumber: '',
+                birthDate: '',
+                address: '',
+                imageCard: {
+                    front: null,
+                    back: null
+                }
+            };
+        },
     },
 })
 
-export const { addInfo, addImage } = userSlice.actions
+export const { addInfo, addImage, clearState } = userSlice.actions
 
 export default userSlice.reducer

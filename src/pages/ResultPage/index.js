@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Heading, View, Button } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { clearState } from '../../store/reducers/user';
 import Icon from 'react-native-vector-icons/Ionicons'
 
 const ResultPage = () => {
   const navigation = useNavigation();
-
+  const dispatch = useDispatch();
   const navigateFunc = () => {
     navigation.navigate('Home');
   }
+
+  useEffect(() => {
+    dispatch(clearState())
+  }, []);
 
   return (
     <View

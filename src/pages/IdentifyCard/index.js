@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import {
-    VStack, Heading, View, Button, Container, ScrollView, Image, Box
+    VStack, Heading, View, Button, Container, ScrollView, Image
 } from 'native-base';
 
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { format, parseISO } from 'date-fns';
+import { format } from 'date-fns';
 
 import Icon from 'react-native-vector-icons/AntDesign'
 import IconFA5 from 'react-native-vector-icons/FontAwesome5'

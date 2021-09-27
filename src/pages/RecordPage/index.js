@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { ApiContext } from '../../api';
 
@@ -10,13 +10,13 @@ import AlertDialogComponent from '../../components/AlertDialog';
 const RecordPage = () => {
     const api = new ApiContext();
     const identityNumber = useSelector(state => state.user.identifyNumber);
-    const dispatch = useDispatch();
     const navigation = useNavigation();
 
     const [state, setState] = useState({
         pose: '',
         pose_id: '',
-        resultValid: false
+        alertMessage: '',
+        resultValid: false,
     })
 
     useEffect(async () => {
@@ -25,7 +25,11 @@ const RecordPage = () => {
     }, [])
 
     const handleCloseAlert = () => {
-        setState((prev) => ({ ...prev, resultValid: false }))
+        setState((prev) => ({
+            ...prev,
+            alertMessage: '',
+            resultValid: false,
+        }))
     }
 
     const record = async (uri) => {
@@ -56,7 +60,11 @@ const RecordPage = () => {
                     resultValid: false
                 }));
             } else {
-                setState((prev) => ({ ...prev, resultValid: true }));
+                setState((prev) => ({
+                    ...prev,
+                    resultValid: true,
+                    alertMessage: JSON.stringify(res)
+                }));
             }
         }
     };
@@ -66,7 +74,7 @@ const RecordPage = () => {
             <Record handleRecord={record} guide={state.pose} />
             <AlertDialogComponent
                 open={state.resultValid}
-                message='Valid failed, please try again!'
+                message={state.alertMessage}
                 handleCloseAlert={handleCloseAlert}
             />
         </>
