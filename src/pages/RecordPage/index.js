@@ -49,7 +49,12 @@ const RecordPage = () => {
         } else {
 
             if (res.result) {
-                setState((prev) => ({ ...prev, pose: res.pose, pose_id: res.pose_id }));
+                setState((prev) => ({
+                    ...prev,
+                    pose: res.pose,
+                    pose_id: res.pose_id,
+                    resultValid: false
+                }));
             } else {
                 setState((prev) => ({ ...prev, resultValid: true }));
             }
