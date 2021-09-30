@@ -38,25 +38,30 @@ const IndentifyCardPage = () => {
             imageCard = {}
         } = user;
 
-        const response = await api.post('cmnd/validation', {
+        await api.post('cmnd/validation', {
             name,
             address,
             identityNumber: identifyNumber,
             birthday: format(new Date(birthDate), 'dd-MM-yyyy'),
             frontside: imageCard.front,
             backside: imageCard.back
-        });
+        })
+            .then(
+                (response) => {
+                    if (response.result) {
+                        navigation.navigate('RecordPage');
+                    } else {
+                        if (response?.step === 2) setState((prev) => ({ ...prev, alertMessage: response.message }))
 
-        if (response.result) {
-            navigation.navigate('RecordPage');           
-        } else {
-            if (response?.step === 2) {
-                setState((prev) => ({ ...prev, alertMessage: response.message }))
-            }
-            const handleError = ['Home', 'Infomation', 'IdentifyCard'][response?.step];
-            navigation.navigate(handleError, { messageError: response.message });
-        }
-        // navigation.navigate('RecordPage');
+                        const handleError = ['Home', 'Infomation', 'IdentifyCard'][response?.step];
+                        navigation.navigate(handleError, { messageError: response.message });
+                    }
+                }
+            )
+            .catch((err) => {
+                setState((prev) => ({ ...prev, alertMessage: JSON.stringify(err) }))
+            });
+
         setState((prev) => ({ ...prev, isLoading: false }))
     }
 
@@ -131,7 +136,7 @@ const IndentifyCardPage = () => {
                     </Container>
                     <Button
                         mt={2}
-                        w={250}                        
+                        w={250}
                         mx='auto'
                         size='lg'
                         colorScheme="success"
