@@ -18,17 +18,19 @@ const QRScanPage = () => {
             name,
             birthDate,
             address,
-            ...rest
+            appliedDate
         ] = dataScan.split('|');
 
-        dispatch(addInfo({
-            name: stringToSlug(name),
-            address,
-            identifyNumber: newIdentityNumber,
-            birthDate: getDateFromScan(birthDate).toISOString().substring(0, 10),
-        }));
+        if (newIdentityNumber.length === 12 && oldIdentityNumber.length === 9 && appliedDate.length === 8) {
+            dispatch(addInfo({
+                name: stringToSlug(name),
+                address,
+                identifyNumber: newIdentityNumber,
+                birthDate: getDateFromScan(birthDate).toISOString().substring(0, 10),
+            }));
 
-        navigation.goBack();
+            navigation.goBack();
+        }
     }
 
     return (
