@@ -9,6 +9,7 @@ import InfoPage from '../pages/InfoPage';
 import IdentifyCardPage from '../pages/IdentifyCard';
 import FaceComparePage from '../pages/FaceComparePage';
 import ResultPage from '../pages/ResultPage';
+import QRScan from '../pages/QRScan';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +44,11 @@ const Routes = () => {
       name: 'ResultPage',
       component: ResultPage
     },
+    {
+      name: 'QRScan',
+      component: QRScan
+    },
+
   ]
 
   return (

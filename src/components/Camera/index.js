@@ -8,7 +8,7 @@ const Camera = (props) => {
         styles,
         mode = 'back',
         handleCapture,
-        isLoading
+        isLoading,
     } = props;
 
     const takePicture = (camera) => {
@@ -34,13 +34,7 @@ const Camera = (props) => {
                         justifyContent: 'flex-end',
                         alignItems: 'center',
                     }, styles)
-                }
-                androidCameraPermissionOptions={{
-                    title: 'Permission to use camera',
-                    message: 'We need your permission to use your camera',
-                    buttonPositive: 'Ok',
-                    buttonNegative: 'Cancel',
-                }}
+                }  
             >
                 {({ camera }) => (
                     <>

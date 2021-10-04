@@ -12,7 +12,7 @@ const CameraPage = (props) => {
   const api = new ApiContext();
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const { mode = 'back' } = props.route.params;
+  const { mode = 'back' } = props.route?.params || {};
 
   const [state, setState] = useState({
     image: null,
@@ -35,9 +35,9 @@ const CameraPage = (props) => {
     ImageEditor.cropImage(uri, cropData)
       .then((resizedImage) => {
         RNFS.readFile(resizedImage, 'base64')
-          .then(async base64 => {            
+          .then(async base64 => {
             const dataPost = {
-              image: base64,             
+              image: base64,
               imageWidth: 1280,
               imageHeight: 960,
               identityWidth: 380,
@@ -56,7 +56,9 @@ const CameraPage = (props) => {
   };
 
   return (
-    <Camera handleCapture={takePicture} isLoading={state.isLoading} />
+    <>
+      <Camera handleCapture={takePicture} isLoading={state.isLoading} />  
+    </>
   );
 };
 

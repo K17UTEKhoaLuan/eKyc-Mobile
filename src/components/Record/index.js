@@ -51,12 +51,6 @@ const Record = (props) => {
                         alignItems: 'center',
                     }, styles)
                 }
-                androidCameraPermissionOptions={{
-                    title: 'Permission to use camera',
-                    message: 'We need your permission to use your camera',
-                    buttonPositive: 'Ok',
-                    buttonNegative: 'Cancel',
-                }}
             >
                 {({ camera }) => (
                     <>
