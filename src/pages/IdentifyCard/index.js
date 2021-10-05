@@ -48,13 +48,16 @@ const IndentifyCardPage = () => {
         })
             .then(
                 (response) => {
-                    if (response.result) {
+                    console.log(response);
+                    const { step = 2, message = '', result } = response;
+                    
+                    if (result) {
                         navigation.navigate('RecordPage');
                     } else {
-                        if (response?.step === 2) setState((prev) => ({ ...prev, alertMessage: response.message }))
+                        if (step === 2) setState((prev) => ({ ...prev, alertMessage: message }))
 
-                        const handleError = ['Home', 'Infomation', 'IdentifyCard'][response?.step];
-                        navigation.navigate(handleError, { messageError: response.message });
+                        const handleError = ['Home', 'Infomation', 'IdentifyCard'][step];
+                        navigation.navigate(handleError, { messageError: message });
                     }
                 }
             )
