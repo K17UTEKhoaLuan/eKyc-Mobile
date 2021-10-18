@@ -103,7 +103,6 @@ const InfoPage = (props) => {
                             </Text>
                         </FormControl.Label>
                         <Input
-                            w='98%'
                             placeholder='Ex: TUAN'
                             _invalid={{
                                 borderColor: 'red'
@@ -162,7 +161,7 @@ const InfoPage = (props) => {
                                 Address
                             </Text>
                         </FormControl.Label>
-                        <TextArea w='98%' h={20} placeholder="Address" onChangeText={(e) => { changeInput(e, 'address') }} />
+                        <TextArea h={20} placeholder="Address" onChangeText={(e) => { changeInput(e, 'address') }} />
                     </FormControl>
                     <FormControl isRequired>
                         <FormControl.Label>
