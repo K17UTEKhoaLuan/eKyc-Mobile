@@ -18,11 +18,28 @@ const RecordPage = () => {
         alertMessage: '',
         resultValid: false,
     })
+    const [timerCount, setTimer] = useState(10)
+
+    useEffect(() => {
+        let interval = setInterval(() => {
+            setTimer(lastTimerCount => {
+                lastTimerCount <= 1 && clearInterval(interval)
+                return lastTimerCount - 1
+            })
+        }, 1000)
+        return () => clearInterval(interval)
+    }, []);
 
     useEffect(async () => {
         const result = await api.post('face/gesture', {}, { params: { identityNumber } });
         setState((prev) => ({ ...prev, pose: result.pose, pose_id: result.pose_id }));
     }, [])
+
+    useEffect(() => {
+        if (timerCount <= 0) {
+            navigation.navigate('IdentifyCard');
+        }
+    }, [timerCount])
 
     const handleCloseAlert = () => {
         setState((prev) => ({
@@ -33,6 +50,7 @@ const RecordPage = () => {
     }
 
     const record = async (uri) => {
+        setTimer(10);
         const data = new FormData();
         data.append('file',
             {
