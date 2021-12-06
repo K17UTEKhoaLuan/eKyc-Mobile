@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { RNCamera } from 'react-native-camera';
-import { View, Button, Heading } from 'native-base';
+import { View, Button, Heading, Text } from 'native-base';
 import BarcodeMask from 'react-native-barcode-mask';
 
 const Record = (props) => {
@@ -28,7 +28,7 @@ const Record = (props) => {
         camera.recordAsync(options)
             .then(async ({ uri }) => {
                 await handleRecord(uri);
-                setState((prev) => ({ ...prev, isRecording: false }));                
+                setState((prev) => ({ ...prev, isRecording: false }));
             });
     };
 
@@ -74,15 +74,22 @@ const Record = (props) => {
                                 </Heading>
                             </View>
                         )}
-                        <View style={{ display: !state.isRecording ? 'flex' : 'none', flexDirection: 'row', marginBottom: 30 }}>
+                        <View style={{ display: !state.isRecording ? 'flex' : 'none', flexDirection: 'row', marginBottom: 7, padding: 5 }}>
                             <Button
                                 isLoading={state.isRecording}
                                 disabled={!guide}
                                 isLoadingText="Recording ..."
                                 onPressIn={record(camera)}
                                 onPressOut={stopRecord(camera)}
+                                colorScheme="success"
+                                style={{
+                                    borderWidth: 1.5,
+                                    borderStyle: 'solid',
+                                    borderColor: '#72eea1',
+                                    width:180
+                                }}
                             >
-                                Continue
+                                <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>Continue</Text>
                             </Button>
                         </View>
                     </>

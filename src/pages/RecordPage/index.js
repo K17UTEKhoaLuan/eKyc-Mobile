@@ -18,7 +18,7 @@ const RecordPage = () => {
         alertMessage: '',
         resultValid: false,
     })
-    const [timerCount, setTimer] = useState(10)
+    const [timerCount, setTimer] = useState(1800);
 
     useEffect(() => {
         let interval = setInterval(() => {
@@ -50,7 +50,7 @@ const RecordPage = () => {
     }
 
     const record = async (uri) => {
-        setTimer(10);
+        setTimer(1800);
         const data = new FormData();
         data.append('file',
             {
