@@ -24,17 +24,10 @@ export const userSlice = createSlice({
             const imageCard = { ...state.imageCard, [action.payload.key]: action.payload.dataImage };
             state.imageCard = imageCard;
         },
-        clearState: (state) => {
-            state = {
-                name: '',
-                identifyNumber: '',
-                birthDate: '',
-                address: '',
-                imageCard: {
-                    front: null,
-                    back: null
-                }
-            };
+        clearState: (state, action) => {
+            for (const key in state) {
+                state[key] = initialState[key];
+            }
         },
     },
 })

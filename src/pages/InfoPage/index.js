@@ -36,7 +36,7 @@ const InfoPage = (props) => {
             identifyNumber,
             birthDate: birthDate.toISOString().substring(0, 10),
         }));
-        navigation.navigate('IdentifyCard');
+        navigation.navigate('ResultPage');
     }
 
     const changeInput = (value, key) => {
@@ -68,6 +68,7 @@ const InfoPage = (props) => {
 
     useEffect(() => {
         const { name, birthDate, identifyNumber, address } = user;
+        console.log(user);
         setState((prev) => ({
             ...prev,
             name,
@@ -91,7 +92,7 @@ const InfoPage = (props) => {
                     w={300}
                     textAlign='center'
                 >
-                    INFOMATION FORM
+                    INFORMATION FORM
                 </Heading>
             </Container>
             <ScrollView py={4} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>

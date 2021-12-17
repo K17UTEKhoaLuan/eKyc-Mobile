@@ -17,6 +17,7 @@ const QRScanPage = () => {
             oldIdentityNumber,
             name,
             birthDate,
+            gender,
             address,
             appliedDate
         ] = dataScan.split('|');

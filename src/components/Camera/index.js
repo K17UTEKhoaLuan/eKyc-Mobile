@@ -43,7 +43,7 @@ const Camera = (props) => {
                         <Button
                             mb={5}
                             isLoading={isLoading}
-                            isLoadingText="Loading ..."
+                            isLoadingText="Loading"
                             onPress={takePicture(camera)}
                             style={{
                                 backgroundColor: 'transparent',
