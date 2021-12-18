@@ -26,6 +26,7 @@ const QRScanPage = () => {
             name: stringToSlug(name),
             address,
             identifyNumber: newIdentityNumber,
+            sex: gender === 'Nam' ? 'Male' : 'Female',
             birthDate: getDateFromScan(birthDate).toISOString().substring(0, 10),
         }));
         navigation.goBack();
