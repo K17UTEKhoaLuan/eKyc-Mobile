@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {
     VStack, Heading, View, FormControl, TextArea,
-    Input, IconButton, Text, ScrollView, Button, Container
+    Input, IconButton, Text, ScrollView, Button, Container,
+    Select, CheckIcon, WarningOutlineIcon
 } from 'native-base';
 import { useDispatch, useSelector } from 'react-redux';
 import { addInfo } from '../../store/reducers/user';
@@ -22,6 +23,7 @@ const InfoPage = (props) => {
         name: '',
         birthDate: new Date(),
         identifyNumber: '',
+        sex: '',
         address: '',
         showDatePicker: false,
         alertMessage: ''
@@ -29,14 +31,15 @@ const InfoPage = (props) => {
 
 
     const navigateFunc = () => {
-        const { name, birthDate, identifyNumber, address } = state;
+        const { name, birthDate, identifyNumber, address, sex } = state;
         dispatch(addInfo({
             name: stringToSlug(name),
+            sex,
             address,
             identifyNumber,
             birthDate: birthDate.toISOString().substring(0, 10),
         }));
-        navigation.navigate('ResultPage');
+        navigation.navigate('IdentifyCard');
     }
 
     const changeInput = (value, key) => {
@@ -67,14 +70,14 @@ const InfoPage = (props) => {
     }, [alertMessage]);
 
     useEffect(() => {
-        const { name, birthDate, identifyNumber, address } = user;
-        console.log(user);
+        const { name, birthDate, identifyNumber, address, sex } = user;
         setState((prev) => ({
             ...prev,
             name,
-            birthDate: birthDate !== '' ? new Date(birthDate) : new Date(),
-            identifyNumber,
+            sex,
             address,
+            identifyNumber,
+            birthDate: birthDate !== '' ? new Date(birthDate) : new Date(),
         }))
     }, [user]);
 
@@ -156,7 +159,36 @@ const InfoPage = (props) => {
                             {renderCheckIdentifyNumber()}
                         </FormControl.ErrorMessage>
                     </FormControl>
-                    <FormControl >
+                    <FormControl isRequired isInvalid={!state.sex}>
+                        <FormControl.Label>
+                            <Text w='98%' fontSize={20}>
+                                Sex
+                            </Text>
+                        </FormControl.Label>
+                        <Select
+                            minWidth="200"
+                            accessibilityLabel="Sex"
+                            placeholder="Sex"
+                            _selectedItem={{
+                                bg: "teal.600",
+                                endIcon: <CheckIcon size={5} />,
+                            }}
+                            mt="1"
+                            selectedValue={state.sex}
+                            onValueChange={(e) => { changeInput(e, 'sex') }}
+                        >
+                            <Select.Item label="Male" value="Male" />
+                            <Select.Item label="Female" value="Female" />
+                        </Select>
+                        <FormControl.ErrorMessage
+                            _invalid={{
+                                display: 'flex'
+                            }}
+                        >
+                            Please make a selection!
+                        </FormControl.ErrorMessage>
+                    </FormControl>
+                    <FormControl isRequired>
                         <FormControl.Label>
                             <Text w='98%' fontSize={20}>
                                 Address
@@ -192,7 +224,7 @@ const InfoPage = (props) => {
                         )}
                     </FormControl>
                     <Button
-                        disabled={!state.name || !state.identifyNumber || !(/^\d+$/.test(state.identifyNumber))}
+                        disabled={!state.name || !state.identifyNumber || !(/^\d+$/.test(state.identifyNumber)) || !state.sex}
                         my={10}
                         w='100%'
                         onPress={navigateFunc}>

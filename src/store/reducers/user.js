@@ -5,6 +5,7 @@ const initialState = {
     identifyNumber: '',
     birthDate: '',
     address: '',
+    sex: '',
     imageCard: {
         front: null,
         back: null
