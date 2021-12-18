@@ -40,7 +40,7 @@ const IndentifyCardPage = () => {
             imageCard = {}
         } = user;
 
-        await api.post('cmnd/validation', {
+        await api.post(`${identifyNumber.length > 8 ? 'cccd' : 'cmnd'}/validation`, {
             name,
             sex,
             code,
