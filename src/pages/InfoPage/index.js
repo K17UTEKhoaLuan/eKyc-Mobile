@@ -13,8 +13,10 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconScan from 'react-native-vector-icons/MaterialCommunityIcons';
 import AlertDialogComponent from '../../components/AlertDialog';
+import { ApiContext } from '../../api';
 
 const InfoPage = (props) => {
+    const api = new ApiContext();
     const user = useSelector(state => state.user);
     const alertMessage = props?.route?.params?.alertMessage || '';
     const dispatch = useDispatch();
@@ -25,16 +27,26 @@ const InfoPage = (props) => {
         identifyNumber: '',
         sex: '',
         address: '',
+        code: '',
         showDatePicker: false,
-        alertMessage: ''
+        alertMessage: '',
+        listProvince: []
     })
 
+    useEffect(async () => {
+        const response = await api.get('location/province');
+        setState((prev) => ({
+            ...prev,
+            listProvince: response?.data
+        }))
+    });
 
     const navigateFunc = () => {
-        const { name, birthDate, identifyNumber, address, sex } = state;
+        const { name, birthDate, identifyNumber, address, sex, code } = state;
         dispatch(addInfo({
             name: stringToSlug(name),
             sex,
+            code,
             address,
             identifyNumber,
             birthDate: birthDate.toISOString().substring(0, 10),
@@ -70,11 +82,12 @@ const InfoPage = (props) => {
     }, [alertMessage]);
 
     useEffect(() => {
-        const { name, birthDate, identifyNumber, address, sex } = user;
+        const { name, birthDate, identifyNumber, address, sex, code } = user;
         setState((prev) => ({
             ...prev,
             name,
             sex,
+            code,
             address,
             identifyNumber,
             birthDate: birthDate !== '' ? new Date(birthDate) : new Date(),
@@ -188,6 +201,36 @@ const InfoPage = (props) => {
                             Please make a selection!
                         </FormControl.ErrorMessage>
                     </FormControl>
+                    <FormControl isRequired isInvalid={!state.code}>
+                        <FormControl.Label>
+                            <Text w='98%' fontSize={20}>
+                                Native Village
+                            </Text>
+                        </FormControl.Label>
+                        <Select
+                            minWidth="200"
+                            accessibilityLabel="Native Village"
+                            placeholder="Native Village"
+                            _selectedItem={{
+                                bg: "teal.600",
+                                endIcon: <CheckIcon size={5} />,
+                            }}
+                            mt="1"
+                            selectedValue={state.code}
+                            onValueChange={(e) => { changeInput(e, 'code') }}
+                        >
+                            {state.listProvince?.length ? state.listProvince.map(province => (
+                                <Select.Item key={province.code} label={province.name} value={province.code} />
+                            )) : <></>}
+                        </Select>
+                        <FormControl.ErrorMessage
+                            _invalid={{
+                                display: 'flex'
+                            }}
+                        >
+                            Please make a selection!
+                        </FormControl.ErrorMessage>
+                    </FormControl>
                     <FormControl isRequired>
                         <FormControl.Label>
                             <Text w='98%' fontSize={20}>
@@ -224,7 +267,7 @@ const InfoPage = (props) => {
                         )}
                     </FormControl>
                     <Button
-                        disabled={!state.name || !state.identifyNumber || !(/^\d+$/.test(state.identifyNumber)) || !state.sex}
+                        disabled={!state.name || !state.identifyNumber || !(/^\d+$/.test(state.identifyNumber)) || !state.sex || !state.code}
                         my={10}
                         w='100%'
                         onPress={navigateFunc}>

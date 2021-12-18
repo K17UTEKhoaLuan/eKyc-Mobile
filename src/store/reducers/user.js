@@ -6,6 +6,7 @@ const initialState = {
     birthDate: '',
     address: '',
     sex: '',
+    code: '',
     imageCard: {
         front: null,
         back: null

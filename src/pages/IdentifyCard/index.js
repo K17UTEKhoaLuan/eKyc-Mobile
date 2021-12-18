@@ -33,6 +33,7 @@ const IndentifyCardPage = () => {
         const {
             name = '',
             sex = '',
+            code = '',
             identifyNumber = '',
             address = '',
             birthDate = '',
@@ -42,6 +43,7 @@ const IndentifyCardPage = () => {
         await api.post('cmnd/validation', {
             name,
             sex,
+            code,
             address,
             identityNumber: identifyNumber,
             birthday: format(new Date(birthDate), 'dd-MM-yyyy'),
