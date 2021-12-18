@@ -32,6 +32,7 @@ const IndentifyCardPage = () => {
         setState((prev) => ({ ...prev, isLoading: true }))
         const {
             name = '',
+            sex = '',
             identifyNumber = '',
             address = '',
             birthDate = '',
@@ -40,6 +41,7 @@ const IndentifyCardPage = () => {
 
         await api.post('cmnd/validation', {
             name,
+            sex,
             address,
             identityNumber: identifyNumber,
             birthday: format(new Date(birthDate), 'dd-MM-yyyy'),
@@ -50,7 +52,7 @@ const IndentifyCardPage = () => {
                 (response) => {
                     console.log(response);
                     const { step = 2, message = '', result } = response;
-                    
+
                     if (result) {
                         navigation.navigate('RecordPage');
                     } else {
