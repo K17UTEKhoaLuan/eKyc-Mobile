@@ -39,7 +39,7 @@ const InfoPage = (props) => {
             ...prev,
             listProvince: response?.data
         }))
-    });
+    },[]);
 
     const navigateFunc = () => {
         const { name, birthDate, identifyNumber, address, sex, code } = state;
