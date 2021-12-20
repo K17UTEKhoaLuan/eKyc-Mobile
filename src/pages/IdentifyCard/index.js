@@ -39,8 +39,8 @@ const IndentifyCardPage = () => {
             birthDate = '',
             imageCard = {}
         } = user;
-
-        await api.post(`${identifyNumber.length > 8 ? 'cccd' : 'cmnd'}/validation`, {
+        
+        await api.post(`${identifyNumber.length > 9 ? 'cccd' : 'cmnd'}/validation`, {
             name,
             sex,
             code,
@@ -51,7 +51,8 @@ const IndentifyCardPage = () => {
             backside: imageCard.back
         })
             .then(
-                (response) => {                    
+                (response) => {       
+                    console.log(response)             
                     const { message, result } = response;
 
                     if (result) {

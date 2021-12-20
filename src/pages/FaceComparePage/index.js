@@ -13,7 +13,7 @@ const FaceComparePage = () => {
     const navigation = useNavigation();
 
     const [state, setState] = useState({
-        pose: 'Please see in your camera!',
+        pose: 'front',
         pose_id: '',
         alertMessage: ''
     })

@@ -18,7 +18,7 @@ const RecordPage = () => {
         alertMessage: '',
         resultValid: false,
     })
-    const [timerCount, setTimer] = useState(1800);
+    const [timerCount, setTimer] = useState(900);
 
     useEffect(() => {
         let interval = setInterval(() => {
@@ -65,7 +65,7 @@ const RecordPage = () => {
             },
             params: { identityNumber }
         });
-        console.log(res);
+
         if (res.complete) {
             navigation.navigate('FaceComparePage')
         } else {
@@ -81,7 +81,7 @@ const RecordPage = () => {
                 setState((prev) => ({
                     ...prev,
                     resultValid: true,
-                    alertMessage: JSON.stringify(res)
+                    alertMessage: res.message
                 }));
             }
         }
