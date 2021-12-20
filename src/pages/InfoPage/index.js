@@ -18,7 +18,7 @@ import { ApiContext } from '../../api';
 const InfoPage = (props) => {
     const api = new ApiContext();
     const user = useSelector(state => state.user);
-    const alertMessage = props?.route?.params?.alertMessage || '';
+    const alertMessage = props?.route?.params?.messageError || '';
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const [state, setState] = useState({
@@ -30,7 +30,8 @@ const InfoPage = (props) => {
         code: '',
         showDatePicker: false,
         alertMessage: '',
-        listProvince: []
+        listProvince: [],
+        isScanned: false,
     })
 
     useEffect(async () => {
@@ -39,7 +40,7 @@ const InfoPage = (props) => {
             ...prev,
             listProvince: response?.data
         }))
-    },[]);
+    }, []);
 
     const navigateFunc = () => {
         const { name, birthDate, identifyNumber, address, sex, code } = state;
@@ -82,13 +83,14 @@ const InfoPage = (props) => {
     }, [alertMessage]);
 
     useEffect(() => {
-        const { name, birthDate, identifyNumber, address, sex, code } = user;
+        const { name, birthDate, identifyNumber, address, sex, code, isScanned } = user;
         setState((prev) => ({
             ...prev,
             name,
             sex,
             code,
             address,
+            isScanned,
             identifyNumber,
             birthDate: birthDate !== '' ? new Date(birthDate) : new Date(),
         }))
@@ -113,7 +115,7 @@ const InfoPage = (props) => {
             </Container>
             <ScrollView py={4} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
                 <VStack space={5} alignItems="center">
-                    <FormControl isRequired isInvalid={!state.name}>
+                    <FormControl isRequired isInvalid={!state.name} isDisabled={state.isScanned}>
                         <FormControl.Label>
                             <Text w='98%' fontSize={20}>
                                 Full Name
@@ -140,6 +142,7 @@ const InfoPage = (props) => {
                     </FormControl>
                     <FormControl
                         isRequired
+                        isDisabled={state.isScanned}
                         isInvalid={!state.identifyNumber || !(/^\d+$/.test(state.identifyNumber))}>
                         <FormControl.Label>
                             <Text w='98%' fontSize={20}>
@@ -179,7 +182,6 @@ const InfoPage = (props) => {
                             </Text>
                         </FormControl.Label>
                         <Select
-                            minWidth="200"
                             accessibilityLabel="Sex"
                             placeholder="Sex"
                             _selectedItem={{
@@ -208,7 +210,6 @@ const InfoPage = (props) => {
                             </Text>
                         </FormControl.Label>
                         <Select
-                            minWidth="200"
                             accessibilityLabel="Native Village"
                             placeholder="Native Village"
                             _selectedItem={{
@@ -231,15 +232,19 @@ const InfoPage = (props) => {
                             Please make a selection!
                         </FormControl.ErrorMessage>
                     </FormControl>
-                    <FormControl isRequired>
+                    <FormControl isRequired isDisabled={state.isScanned}>
                         <FormControl.Label>
                             <Text w='98%' fontSize={20}>
                                 Address
                             </Text>
                         </FormControl.Label>
-                        <TextArea h={20} placeholder="Address" onChangeText={(e) => { changeInput(e, 'address') }} />
+                        <TextArea h={20}
+                            placeholder="Address"
+                            value={state.address}
+                            onChangeText={(e) => { changeInput(e, 'address') }}
+                        />
                     </FormControl>
-                    <FormControl isRequired>
+                    <FormControl isRequired isDisabled={state.isScanned}>
                         <FormControl.Label>
                             <Text w='98%' fontSize={20}>
                                 BirthDate

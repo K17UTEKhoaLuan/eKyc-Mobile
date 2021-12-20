@@ -7,6 +7,7 @@ const initialState = {
     address: '',
     sex: '',
     code: '',
+    isScanned: false,
     imageCard: {
         front: null,
         back: null

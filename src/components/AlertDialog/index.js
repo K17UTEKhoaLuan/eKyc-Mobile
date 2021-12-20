@@ -1,9 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
     AlertDialog,
     Button,
     Center,
+    Text
 } from "native-base";
+import IconEntypo from 'react-native-vector-icons/Entypo';
 
 const AlertDialogComponent = ({ open, message, handleCloseAlert }) => {
     const [isOpen, setIsOpen] = React.useState(false);
@@ -26,15 +28,42 @@ const AlertDialogComponent = ({ open, message, handleCloseAlert }) => {
                 motionPreset={"fade"}
             >
                 <AlertDialog.Content>
-                    <AlertDialog.Header fontSize="lg" fontWeight="bold">
-                        Message
+                    <AlertDialog.Header style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                    }}>
+                        <IconEntypo name='info-with-circle' size={25} color='#477AAB' />
+                        <Text style={{
+                            marginLeft: 10,
+                            fontWeight: 'bold',
+                            fontSize: 20
+                        }}>
+                            Message
+                        </Text>
                     </AlertDialog.Header>
                     <AlertDialog.Body>
-                        {message}
+                        <Text style={{
+                            fontSize: 22,
+                            fontWeight: 'normal'
+                        }}>
+                            - {message}.
+                        </Text>
                     </AlertDialog.Body>
                     <AlertDialog.Footer>
-                        <Button ref={cancelRef} onPress={onClose}>
-                            OK
+                        <Button ref={cancelRef} onPress={onClose}
+                            style={{
+                                width: 80,
+                                height: 45,
+                                backgroundColor: 'red',
+                            }}
+                        >
+                            <Text style={{
+                                fontSize: 17,
+                                fontWeight: 'bold',
+                                color: 'white'
+                            }}>
+                                Close
+                            </Text>
                         </Button>
                     </AlertDialog.Footer>
                 </AlertDialog.Content>

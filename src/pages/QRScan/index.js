@@ -28,6 +28,7 @@ const QRScanPage = () => {
             identifyNumber: newIdentityNumber,
             sex: gender === 'Nam' ? 'Male' : 'Female',
             birthDate: getDateFromScan(birthDate).toISOString().substring(0, 10),
+            isScanned: true,
         }));
         navigation.goBack();
     }

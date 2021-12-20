@@ -51,22 +51,18 @@ const IndentifyCardPage = () => {
             backside: imageCard.back
         })
             .then(
-                (response) => {
-                    console.log(response);
-                    const { step = 2, message = '', result } = response;
+                (response) => {                    
+                    const { message, result } = response;
 
                     if (result) {
                         navigation.navigate('RecordPage');
                     } else {
-                        if (step === 2) setState((prev) => ({ ...prev, alertMessage: message }))
-
-                        const handleError = ['Home', 'Infomation', 'IdentifyCard'][step];
-                        navigation.navigate(handleError, { messageError: message });
+                        setState((prev) => ({ ...prev, alertMessage: message }))
                     }
                 }
             )
             .catch((err) => {
-                setState((prev) => ({ ...prev, alertMessage: JSON.stringify(err) }))
+                setState((prev) => ({ ...prev, alertMessage: 'Validate failed!' }))
             });
 
         setState((prev) => ({ ...prev, isLoading: false }))
