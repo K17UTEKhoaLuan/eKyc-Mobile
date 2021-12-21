@@ -206,7 +206,7 @@ const InfoPage = (props) => {
                     <FormControl isRequired isInvalid={!state.code}>
                         <FormControl.Label>
                             <Text w='98%' fontSize={20}>
-                                Birth certificate's registered location
+                                Birth certificate's registered province
                             </Text>
                         </FormControl.Label>
                         <Select
