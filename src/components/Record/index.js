@@ -119,25 +119,33 @@ const Record = (props) => {
                                 {!state.isRecording && (
                                     <View
                                         style={{
-                                            borderRadius: 10,
-                                            borderStyle: 'solid',
-                                            borderWidth: 1,
-                                            alignSelf: 'center',
-                                            marginBottom: 80
+                                            backgroundColor: 'transparent',
+                                            position: 'absolute',
+                                            top: 0,
+                                            left: 0,
+                                            right: 0,
+                                            bottom: 0,
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
                                         }}
                                         shadow={7}
                                     >
-                                        <Image
-                                            style={{
-                                                borderRadius: 10,
-                                                alignSelf: 'center',
-                                            }}
-                                            w={240}
-                                            h={300}
-                                            resizeMode='cover'
-                                            source={mappedGuide(guide).url}
-                                            alt={mappedGuide(guide).name}
-                                        />
+                                        <View style={{
+                                            borderWidth: 1,
+                                            borderStyle: 'solid',
+                                            borderRadius: 10
+                                        }}>
+                                            <Image
+                                                style={{
+                                                    borderRadius: 10,
+                                                }}
+                                                w={240}
+                                                h={300}
+                                                resizeMode='cover'
+                                                source={mappedGuide(guide).url}
+                                                alt={mappedGuide(guide).name}
+                                            />
+                                        </View>
                                     </View>
                                 )}
                             </>
@@ -157,7 +165,7 @@ const Record = (props) => {
                                     width: 180
                                 }}
                             >
-                                <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>Continue</Text>
+                                <Text style={{ color: 'white', fontSize: 20, fontWeight: 'bold' }}>Start</Text>
                             </Button>
                         </View>
                     </>
