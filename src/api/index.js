@@ -3,7 +3,7 @@ import axios from "axios";
 export class ApiContext {
     constructor() {
         // this.baseURL = 'https://ekyckhoaluan.herokuapp.com/';
-        this.baseURL = 'https://d1c6-42-118-26-170.ngrok.io/';
+        this.baseURL = 'https://a780-42-117-163-62.ngrok.io/';
         this.instance = axios.create(
             {
                 baseURL: this.baseURL,
